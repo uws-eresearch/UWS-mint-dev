@@ -1,0 +1,50 @@
+{
+    "harvester": {
+        "type": "csv",
+        "csv": {
+            "fileLocation": "${fascinator.home}/data/Activities_UWS.csv",
+            "idColumn": "ID",
+            "recordIDPrefix": "http://redbox-mint.googlecode.com/uws/activities/",
+            "headerRow": true,
+            "delimiter": "|",
+            "ignoredFields": [],
+            "includedFields" : [
+                "ID",
+                "Submit Year",
+                "Start Year",
+                "Title",
+                "Description",
+                "Institution",
+                "Investigators",
+                "Discipline"
+            ]
+        }
+    },
+
+    "transformer": {
+        "curation": [],
+        "metadata": []
+    },
+    "curation": {
+        "neverPublish": true,
+        "alreadyCurated": true
+    },
+
+    "transformerOverrides": {
+        "jsonVelocity": {
+            "templatesPath" : "${fascinator.home}/templates/activities",
+            "portalId": "Activities"
+        }
+    },
+
+    "indexer": {
+        "script": {
+            "type": "python",
+            "rules": "Activities.py"
+        },
+        "params": {
+            "repository.name": "UWS Local Research Projects",
+            "repository.type": "Research Activities"
+        }
+    }
+}
