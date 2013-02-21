@@ -75,5 +75,7 @@
             "repository.name": "People",
             "repository.type": "Parties"
         }
-    }
+    },
+    
+    "logFile": "${fascinator.home}/logs/harvest.log"
 }

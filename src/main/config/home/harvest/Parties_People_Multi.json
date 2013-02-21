@@ -2,18 +2,19 @@
     "harvester": {
         "type": "csv",
         "csv": {
-            "fileLocation": "${fascinator.home}/data/Group_Sample.csv",
+            "fileLocation": "${fascinator.home}/data/People_Sample_Multi.csv",
             "idColumn": "ID",
-            "recordIDPrefix": "redbox-mint.googlecode.com/parties/group/",
+            "recordIDPrefix": "redbox-mint.googlecode.com/parties/people/",
             "headerRow": true,
             "delimiter": ",",
             "ignoredFields": [],
-            "includedFields" : ["ID", "Name", "Email", "Phone", "Parent_Group_ID", "URI", "NLA_Party_Identifier", "Homepage", "Description"]
+            "includedFields" : ["ID", "Given_Name", "Other_Names", "Family_Name", "Pref_Name", "Honorific", "Email", "Job_Title", "Groups", "ANZSRC_FOR", "URI", "NLA_Party_Identifier", "ResearcherID", "openID", "Personal_URI", "Personal_Homepage", "Staff_Profile_Homepage", "Description"],
+            "multiValueFields": ["Groups", "ANZSRC_FOR"]
         }
     },
 
     "transformer": {
-        "curation": ["handle"],
+        "curation": [],
         "metadata": ["ingest-relations", "jsonVelocity"]
     },
     "curation": {
@@ -26,41 +27,42 @@
             "sourcePid": "metadata.json",
             "sourcePath": ["data"],
             "relations": {
-                "Parent_Group_ID": {
+                "Groups": {
                     "prefix": "redbox-mint.googlecode.com/parties/group/",
-                    "relation": "isPartOf",
-                    "reverseRelation": "hasPart"
+                    "relation": "isMemberOf",
+                    "reverseRelation": "hasMember"
                 }
             }
         },
         "handle": {
             "source": "metadata.json",
             "description": {
-                "seperator": "",
+                "seperator": " ",
                 "paths": [
-                    ["data", "Name"]
+                    ["data", "Honorific"],
+                    ["data", "Given_Name"],
+                    ["data", "Family_Name"]
                 ]
             },
             "output": {
                 "path": ["metadata"],
                 "field": "rdf:resource"
             },
-            "template": "[[INC]]",
-            "urlTemplate": "${server.url.base}published/detail/[[OID]]"
+            "template": "[[INC]]"
         },
         "jsonVelocity": {
-            "templatesPath" : "${fascinator.home}/templates/groups",
-            "portalId": "Parties_Groups"
+            "templatesPath" : "${fascinator.home}/templates/people",
+            "portalId": "Parties_People"
         }
     },
 
     "indexer": {
         "script": {
             "type": "python",
-            "rules": "Parties_Groups.py"
+            "rules": "Parties_People_Multi.py"
         },
         "params": {
-            "repository.name": "Groups",
+            "repository.name": "People",
             "repository.type": "Parties"
         }
     },
